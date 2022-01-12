@@ -29,8 +29,25 @@ runs:
     - uses: ruby/setup-ruby@4726835508d9debb3220096c92d7bf6388485faa
       with:
         ruby-version: 3.0
+    - name: Commit Message
+      id: message
+      run: |
+        if [-n "${{ inputs.commit-message }}"]; then
+          echo "::set-output message=$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')"
+        else
+          echo "::set-output message=Merge branch '${{ inputs.src-branch }}' into '${{ inputs.dest-branch }}'"
+        fi
+      shell: bash
     - name: Merge
-      run: ruby ${{ github.action_path }}/src/back_merge.rb
+      run: |
+        git config user.email ${{ inputs.commit-author-email }}
+        git config user.name ${{ inputs.commit-author-name }}
+        git fetch
+        git checkout ${{ inputs.dest-branch }}
+        git merge ${{ inputs.src-branch }} --strategy-option theirs -m "" --allow-unrelated-histories
+        git push -u origin ${{ inputs.dest-branch }}
+      shell: bash
+    - run: ruby ${{ github.action_path }}/src/back_merge.rb
       shell: bash
       env:
         SRC_BRANCH: ${{inputs.src-branch}}

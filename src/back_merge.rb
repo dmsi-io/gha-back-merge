@@ -9,7 +9,6 @@ def commit_message
 end
 
 def main
-  system("git config user.email #{ENV['COMMIT_AUTHOR_EMAIL']} && git config user.name #{ENV['COMMIT_AUTHOR_NAME']}")
   system('git fetch')
   system("git checkout #{ENV['DEST_BRANCH']}")
   system("git merge #{ENV['SRC_BRANCH']} --strategy-option theirs -m \"#{commit_message}\" --allow-unrelated-histories")
