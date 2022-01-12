@@ -5,11 +5,11 @@ inputs:
   src-branch:
     description: 'What branch is acting as the source of the merger'
     required: false
-    default: 'develop'
+    default: 'main'
   dest-branch:
     description: 'What branch is acting as the destination of the merger'
     required: false
-    default: 'main'
+    default: 'develop'
   commit-message:
     description: 'The commit message to use for the merge'
     required: false
