@@ -44,11 +44,3 @@ runs:
         git merge ${{ inputs.src-branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
         git push -u origin ${{ inputs.dest-branch }}
       shell: bash
-    - run: ruby ${{ github.action_path }}/src/back_merge.rb
-      shell: bash
-      env:
-        SRC_BRANCH: ${{inputs.src-branch}}
-        DEST_BRANCH: ${{inputs.dest-branch}}
-        COMMIT_MESSAGE: ${{inputs.commit-message}}
-        COMMIT_AUTHOR_NAME: ${{inputs.commit-author-name}}
-        COMMIT_AUTHOR_EMAIL: ${{inputs.commit-author-email}}
