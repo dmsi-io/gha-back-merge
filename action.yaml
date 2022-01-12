@@ -44,7 +44,7 @@ runs:
         git config user.name ${{ inputs.commit-author-name }}
         git fetch
         git checkout ${{ inputs.dest-branch }}
-        git merge ${{ inputs.src-branch }} --strategy-option theirs -m "" --allow-unrelated-histories
+        git merge ${{ inputs.src-branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
         git push -u origin ${{ inputs.dest-branch }}
       shell: bash
     - run: ruby ${{ github.action_path }}/src/back_merge.rb
