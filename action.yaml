@@ -22,7 +22,7 @@ runs:
       with:
         ruby-version: 3.0
     - name: Merge
-      run: ruby ./src/back_merge.rb
+      run: ruby ${{ github.action_path }}/src/back_merge.rb
       shell: bash
       env:
         SRC_BRANCH: ${{inputs.src-branch}}
