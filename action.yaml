@@ -29,7 +29,7 @@ runs:
     - name: Commit Message
       id: message
       run: |
-        if [-n "${{ inputs.commit-message }}"]; then
+        if [ -n "${{ inputs.commit-message }}" ]; then
           echo "::set-output name=message::$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')"
         else
           echo "::set-output name=message::Merge branch '${{ inputs.src-branch }}' into '${{ inputs.dest-branch }}'"
