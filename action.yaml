@@ -1,0 +1,30 @@
+name: Back Merge
+description: Merge code back into develop on push to main
+
+inputs:
+  src-branch:
+    description: 'What branch is acting as the source of the merger'
+    required: false
+    default: 'develop'
+  dest-branch:
+    description: 'What branch is acting as the destination of the merger'
+    required: false
+    default: 'main'
+  commit-message:
+    description: 'The commit message to use for the merge'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@4726835508d9debb3220096c92d7bf6388485faa
+      with:
+        ruby-version: 3.0
+    - name: Merge
+      run: ruby src/back_merge.rb
+      shell: bash
+      env:
+        SRC_BRANCH: ${{inputs.src-branch}}
+        DEST_BRANCH: ${{inputs.dest-branch}}
+        COMMIT_MESSAGE: ${{inputs.commit-message}}
