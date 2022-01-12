@@ -13,6 +13,14 @@ inputs:
   commit-message:
     description: 'The commit message to use for the merge'
     required: false
+  commit-author-name:
+    description: 'The author name to use for the merge'
+    required: false
+    default: 'github-actions'
+  commit-author-email:
+    description: 'The email to use for the merge'
+    required: false
+    default: 'github-actions@github.com'
 
 runs:
   using: 'composite'
@@ -28,3 +36,5 @@ runs:
         SRC_BRANCH: ${{inputs.src-branch}}
         DEST_BRANCH: ${{inputs.dest-branch}}
         COMMIT_MESSAGE: ${{inputs.commit-message}}
+        COMMIT_AUTHOR_NAME: ${{inputs.commit-author-name}}
+        COMMIT_AUTHOR_EMAIL: ${{inputs.commit-author-email}}

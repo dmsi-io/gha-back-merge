@@ -55,3 +55,11 @@ Default: "Merged <src-branch> into <dest-branch>"
   with:
     commit-message: 'Back merge'
 ```
+
+#### Commit Author
+
+The author to use when committing the merge.
+
+Default:
+ * Name: 'github-actions'
+ * Email: 'github-actions@github.com'
