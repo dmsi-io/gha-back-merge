@@ -1,0 +1,46 @@
+name: Back Merge
+description: Merge code back into develop on push to main
+
+inputs:
+  src-branch:
+    description: 'What branch is acting as the source of the merger'
+    required: false
+    default: 'main'
+  dest-branch:
+    description: 'What branch is acting as the destination of the merger'
+    required: false
+    default: 'develop'
+  commit-message:
+    description: 'The commit message to use for the merge'
+    required: false
+  commit-author-name:
+    description: 'The author name to use for the merge'
+    required: false
+    default: 'github-actions'
+  commit-author-email:
+    description: 'The email to use for the merge'
+    required: false
+    default: 'github-actions@github.com'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v2
+    - name: Commit Message
+      id: message
+      run: |
+        if [ -n "${{ inputs.commit-message }}" ]; then
+          echo "::set-output name=message::$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')"
+        else
+          echo "::set-output name=message::Merge branch '${{ inputs.src-branch }}' into '${{ inputs.dest-branch }}'"
+        fi
+      shell: bash
+    - name: Merge
+      run: |
+        git config user.email ${{ inputs.commit-author-email }}
+        git config user.name ${{ inputs.commit-author-name }}
+        git fetch
+        git checkout ${{ inputs.dest-branch }}
+        git merge ${{ inputs.src-branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
+        git push -u origin ${{ inputs.dest-branch }}
+      shell: bash
