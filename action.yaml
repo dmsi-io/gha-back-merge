@@ -50,7 +50,7 @@ runs:
         git config user.email ${{ inputs.commit-author-email }}
         git config user.name ${{ inputs.commit-author-name }}
         git fetch
-        git checkout ${{ steps.dest-branch.outputs.branch }}
+        git checkout ${{ inputs.dest-branch }}
         git merge ${{ steps.src-branch.outputs.branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
-        git push -u origin ${{ steps.dest-branch.outputs.branch }}
+        git push -u origin ${{ inputs.dest-branch }}
       shell: bash
