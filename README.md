@@ -5,7 +5,7 @@ The purpose of this GitHub Action is to automate the merging of main back into d
 ### Usage
 
 ```yaml
-name: Test-Lint
+name: Back-Merge
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
 
 The branch to merge from.
 
-Default: 'main'
+Default: The branch that the push action is triggered from.
 
 ```yaml
   with:
@@ -38,7 +38,7 @@ Default: 'main'
 
 The branch to merge into.
 
-Default: 'develop'
+Default: The default branch for the repository.
 
 ```yaml
   with:

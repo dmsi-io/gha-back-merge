@@ -5,11 +5,10 @@ inputs:
   src-branch:
     description: 'What branch is acting as the source of the merger'
     required: false
-    default: 'main'
   dest-branch:
     description: 'What branch is acting as the destination of the merger'
     required: false
-    default: 'develop'
+    default: ${{ github.event.repository.default_branch }}
   commit-message:
     description: 'The commit message to use for the merge'
     required: false
@@ -35,12 +34,23 @@ runs:
           echo "::set-output name=message::Merge branch '${{ inputs.src-branch }}' into '${{ inputs.dest-branch }}'"
         fi
       shell: bash
+    - name: Source Branch
+      id: src-branch
+      run: |
+        if [ -n "${{ inputs.src-branch }}" ]; then
+          echo "::set-output name=branch::${{ inputs.src-branch }}"
+        elif [ "${{ github.event_name }}" = "push" ]; then
+          echo "::set-output name=branch::${{ github.ref_name }}"
+        else
+          echo "::set-output name=branch::main"
+        fi
+      shell: bash
     - name: Merge
       run: |
         git config user.email ${{ inputs.commit-author-email }}
         git config user.name ${{ inputs.commit-author-name }}
         git fetch
         git checkout ${{ inputs.dest-branch }}
-        git merge ${{ inputs.src-branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
+        git merge ${{ steps.src-branch.outputs.branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
         git push -u origin ${{ inputs.dest-branch }}
       shell: bash
