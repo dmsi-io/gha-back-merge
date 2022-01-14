@@ -8,6 +8,7 @@ inputs:
   dest-branch:
     description: 'What branch is acting as the destination of the merger'
     required: false
+    default: ${{ github.event.repository.default_branch }}
   commit-message:
     description: 'The commit message to use for the merge'
     required: false
@@ -42,15 +43,6 @@ runs:
           echo "::set-output name=branch::${{ github.ref_name }}"
         else
           echo "::set-output name=branch::main"
-        fi
-      shell: bash
-    - name: Destiation Branch
-      id: dest-branch
-      run: |
-        if [ -n "${{ inputs.dest-branch }}" ]; then
-          echo "::set-output name=branch::${{ inputs.dest-branch }}"
-        else
-          echo "::set-output name=branch::${{ github.event.repository.default_branch }}"
         fi
       shell: bash
     - name: Merge
