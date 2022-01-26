@@ -21,11 +21,16 @@ inputs:
     description: 'The email to use for the merge'
     required: false
     default: 'github-actions@github.com'
+  token:
+    description: 'The token to access private repos'
+    required: false
 
 runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.token }}
     - name: Commit Message
       id: message
       run: |
