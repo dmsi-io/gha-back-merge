@@ -45,7 +45,9 @@ runs:
         git config user.email ${{ inputs.commit-author-email }}
         git config user.name ${{ inputs.commit-author-name }}
         git fetch
-        git checkout ${{ inputs.dest-branch }}
+        # Ensure the branch exists locally
+        git switch ${{ inputs.src-branch }}
+        git switch ${{ inputs.dest-branch }}
         git merge ${{ inputs.src-branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
         git push -u origin ${{ inputs.dest-branch }}
       shell: bash
