@@ -2,7 +2,18 @@
 
 The purpose of this GitHub Action is to automate the merging of main back into develop following a release.
 
-### Usage
+## Inputs
+
+| NAME                  | DESCRIPTION                                            | TYPE      | REQUIRED | DEFAULT                     |
+| --------------------- | ------------------------------------------------------ | --------- | -------- | --------------------------- |
+| `src-branch`          | What branch is acting as the source of the merger      | `string`  | `false`  | `true`                      |
+| `dest-branch`         | What branch is acting as the destination of the merger | `string`  | `false`  | `true`                      |
+| `submodules`          | Whether to checkout submodules                         | `boolean` | `false`  | `false`                     |
+| `commit-message`      | The commit message to use for the merge                | `string`  | `false`  |                             |
+| `commit-author-name`  | The author name to use for the merge                   | `string`  | `false`  | `github-actions`            |
+| `commit-author-email` | The email to use for the merge                         | `string`  | `false`  | `github-actions@github.com` |
+
+## Example
 
 ```yaml
 name: Test-Lint
@@ -20,46 +31,3 @@ jobs:
       - name: Test App
         uses: dmsi-io/gha-back-merge@main
 ```
-
-### Optional inputs
-
-#### Source Branch
-
-The branch to merge from.
-
-Default: 'main'
-
-```yaml
-  with:
-    src-branch: 'production'
-```
-
-#### Destination Branch
-
-The branch to merge into.
-
-Default: 'develop'
-
-```yaml
-  with:
-    dest-branch: 'development'
-```
-
-#### Commit Message
-
-The commit message to use when merging.
-
-Default: "Merged <src-branch> into <dest-branch>"
-
-```yaml
-  with:
-    commit-message: 'Back merge'
-```
-
-#### Commit Author
-
-The author to use when committing the merge.
-
-Default:
- * Name: 'github-actions'
- * Email: 'github-actions@github.com'
