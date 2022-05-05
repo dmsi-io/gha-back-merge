@@ -17,7 +17,7 @@ The purpose of this GitHub Action is to automate the merging of main back into d
 ## Example
 
 ```yaml
-name: Test-Lint
+name: Back-Merge
 
 on:
   push:

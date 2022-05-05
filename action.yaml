@@ -15,7 +15,7 @@ inputs:
     required: false
     default: 'false'
   token:
-    description: 'GitHub token'
+    description: 'The token to access private repos'
     required: false
   commit-message:
     description: 'The commit message to use for the merge'
@@ -61,7 +61,9 @@ runs:
         git config user.email ${{ inputs.commit-author-email }}
         git config user.name ${{ inputs.commit-author-name }}
         git fetch
-        git checkout ${{ inputs.dest-branch }}
-        git merge ${{ inputs.src-branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
+        # Ensure the branch exists locally
+        git switch ${{ steps.src-branch.outputs.branch }}
+        git switch ${{ inputs.dest-branch }}
+        git merge ${{ steps.src-branch.outputs.branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
         git push -u origin ${{ inputs.dest-branch }}
       shell: bash
