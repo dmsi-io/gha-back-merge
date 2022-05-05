@@ -5,10 +5,18 @@ inputs:
   src-branch:
     description: 'What branch is acting as the source of the merger'
     required: false
+    default: 'main'
   dest-branch:
     description: 'What branch is acting as the destination of the merger'
     required: false
     default: ${{ github.event.repository.default_branch }}
+  submodules:
+    description: 'Whether to checkout submodules'
+    required: false
+    default: 'false'
+  token:
+    description: 'The token to access private repos'
+    required: false
   commit-message:
     description: 'The commit message to use for the merge'
     required: false
@@ -20,9 +28,6 @@ inputs:
     description: 'The email to use for the merge'
     required: false
     default: 'github-actions@github.com'
-  token:
-    description: 'The token to access private repos'
-    required: false
 
 runs:
   using: 'composite'
@@ -30,15 +35,7 @@ runs:
     - uses: actions/checkout@v2
       with:
         token: ${{ inputs.token }}
-    - name: Commit Message
-      id: message
-      run: |
-        if [ -n "${{ inputs.commit-message }}" ]; then
-          echo "::set-output name=message::$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')"
-        else
-          echo "::set-output name=message::Merge branch '${{ inputs.src-branch }}' into '${{ inputs.dest-branch }}'"
-        fi
-      shell: bash
+        submodules: ${{ inputs.submodules }}
     - name: Source Branch
       id: src-branch
       run: |
@@ -48,6 +45,15 @@ runs:
           echo "::set-output name=branch::${{ github.ref_name }}"
         else
           echo "::set-output name=branch::main"
+        fi
+      shell: bash
+    - name: Commit Message
+      id: message
+      run: |
+        if [ -n "${{ inputs.commit-message }}" ]; then
+          echo "::set-output name=message::$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')"
+        else
+          echo "::set-output name=message::Merge branch '${{ steps.src-branch.outputs.branch }}' into '${{ inputs.dest-branch }}'"
         fi
       shell: bash
     - name: Merge
