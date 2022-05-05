@@ -9,7 +9,7 @@ The purpose of this GitHub Action is to automate the merging of main back into d
 | `src-branch`          | What branch is acting as the source of the merger      | `string`  | `false`  | default branch              |
 | `dest-branch`         | What branch is acting as the destination of the merger | `string`  | `false`  | `main`                      |
 | `submodules`          | Whether to checkout submodules                         | `boolean` | `false`  | `false`                     |
-| `token`               | GitHub token                                           | `string`  | `false`  |                             |
+| `token`               | The token to access private repos                      | `string`  | `false`  |                             |
 | `commit-message`      | The commit message to use for the merge                | `string`  | `false`  |                             |
 | `commit-author-name`  | The author name to use for the merge                   | `string`  | `false`  | `github-actions`            |
 | `commit-author-email` | The email to use for the merge                         | `string`  | `false`  | `github-actions@github.com` |
