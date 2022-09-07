@@ -65,5 +65,5 @@ runs:
         git switch ${{ steps.src-branch.outputs.branch }}
         git switch ${{ inputs.dest-branch }}
         git merge ${{ steps.src-branch.outputs.branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
-        git push -u origin ${{ inputs.dest-branch }}
+        git push
       shell: bash
