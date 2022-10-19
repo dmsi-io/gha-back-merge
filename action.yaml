@@ -40,20 +40,20 @@ runs:
       id: src-branch
       run: |
         if [ -n "${{ inputs.src-branch }}" ]; then
-          echo "::set-output name=branch::${{ inputs.src-branch }}"
+          echo "branch=${{ inputs.src-branch }}" >> $GITHUB_OUTPUT
         elif [ "${{ github.event_name }}" = "push" ]; then
-          echo "::set-output name=branch::${{ github.ref_name }}"
+          echo "branch=${{ github.ref_name }}" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=branch::main"
+          echo "branch=main" >> $GITHUB_OUTPUT
         fi
       shell: bash
     - name: Commit Message
       id: message
       run: |
         if [ -n "${{ inputs.commit-message }}" ]; then
-          echo "::set-output name=message::$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')"
+          echo "message=$(echo ${{ inputs.commit-message }} | sed 's|\"|\\\"|g')" >> $GITHUB_OUTPUT
         else
-          echo "::set-output name=message::Merge branch '${{ steps.src-branch.outputs.branch }}' into '${{ inputs.dest-branch }}'"
+          echo "message=Merge branch '${{ steps.src-branch.outputs.branch }}' into '${{ inputs.dest-branch }}'" >> $GITHUB_OUTPUT
         fi
       shell: bash
     - name: Merge
