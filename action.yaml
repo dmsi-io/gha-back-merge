@@ -28,6 +28,10 @@ inputs:
     description: 'The email to use for the merge'
     required: false
     default: 'github-actions@github.com'
+  commit-flags: 
+    description: 'The git merge flags to use for the merge'
+    required: false
+    default: '--no-verify --strategy-option theirs --allow-unrelated-histories'
 
 runs:
   using: 'composite'
@@ -64,6 +68,6 @@ runs:
         # Ensure the branch exists locally
         git switch ${{ steps.src-branch.outputs.branch }}
         git switch ${{ inputs.dest-branch }}
-        git merge ${{ steps.src-branch.outputs.branch }} --strategy-option theirs -m "${{ steps.message.outputs.message }}" --allow-unrelated-histories
+        git merge ${{ steps.src-branch.outputs.branch }} -m "${{ steps.message.outputs.message }}" ${{ inputs.commit-flags }}
         git push
       shell: bash
