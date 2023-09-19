@@ -68,6 +68,6 @@ runs:
         # Ensure the branch exists locally
         git switch ${{ steps.src-branch.outputs.branch }}
         git switch ${{ inputs.dest-branch }}
-        git merge ${{ steps.src-branch.outputs.branch }} -m "${{ steps.message.outputs.message }}" ${{ inputs.commit-flags }} || git commit -am "${{ steps.message.outputs.message }}" || echo "Skipping commit"
+        git merge ${{ steps.src-branch.outputs.branch }} -m "${{ steps.message.outputs.message }}" ${{ inputs.commit-flags }} || git commit --no-verify -am "${{ steps.message.outputs.message }}" || echo "Skipping commit"
         git push
       shell: bash
