@@ -69,5 +69,6 @@ runs:
         git switch ${{ steps.src-branch.outputs.branch }}
         git switch ${{ inputs.dest-branch }}
         git merge ${{ steps.src-branch.outputs.branch }} -m "${{ steps.message.outputs.message }}" ${{ inputs.commit-flags }}
+        git commit -am "Merge branches" || echo "Skipping commit"
         git push
       shell: bash
