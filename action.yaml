@@ -70,6 +70,6 @@ runs:
         git pull
         git switch ${{ inputs.dest-branch }}
         git pull
-        git merge ${{ steps.src-branch.outputs.branch }} -m "${{ steps.message.outputs.message }}" ${{ inputs.commit-flags }} || git commit --no-verify -am "${{ steps.message.outputs.message }}" || echo "Skipping commit"
+        git merge ${{ steps.src-branch.outputs.branch }} -m "${{ steps.message.outputs.message }}" ${{ inputs.commit-flags }} || echo "Skipping merge"
         git push
       shell: bash
