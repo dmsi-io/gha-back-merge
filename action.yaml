@@ -60,6 +60,12 @@ runs:
           echo "message=Merge branch '${{ steps.src-branch.outputs.branch }}' into '${{ inputs.dest-branch }}'" >> $GITHUB_OUTPUT
         fi
       shell: bash
+    - name: Clean submodules
+      if: inputs.submodules == 'true'
+      run: |
+        git submodule foreach --recursive 'git reset --hard'
+        git submodule foreach --recursive 'git clean -fdx'
+      shell: bash
     - name: Merge
       run: |
         git config user.email ${{ inputs.commit-author-email }}
