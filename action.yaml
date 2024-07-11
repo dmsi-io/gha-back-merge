@@ -3,38 +3,38 @@ description: Merge code back into develop on push to main
 
 inputs:
   src-branch:
-    description: "What branch is acting as the source of the merger"
+    description: 'What branch is acting as the source of the merger'
     required: false
-    default: "main"
+    default: 'main'
   dest-branch:
-    description: "What branch is acting as the destination of the merger"
+    description: 'What branch is acting as the destination of the merger'
     required: false
     default: ${{ github.event.repository.default_branch }}
   submodules:
-    description: "Whether to checkout submodules"
+    description: 'Whether to checkout submodules'
     required: false
-    default: "false"
+    default: 'false'
   token:
-    description: "The token to access private repos"
+    description: 'The token to access private repos'
     required: false
   commit-message:
-    description: "The commit message to use for the merge"
+    description: 'The commit message to use for the merge'
     required: false
   commit-author-name:
-    description: "The author name to use for the merge"
+    description: 'The author name to use for the merge'
     required: false
-    default: "github-actions"
+    default: 'github-actions'
   commit-author-email:
-    description: "The email to use for the merge"
+    description: 'The email to use for the merge'
     required: false
-    default: "github-actions@github.com"
-  commit-flags:
-    description: "The git merge flags to use for the merge"
+    default: 'github-actions@github.com'
+  commit-flags: 
+    description: 'The git merge flags to use for the merge'
     required: false
-    default: "--no-verify --strategy-option theirs --allow-unrelated-histories"
+    default: '--no-verify --strategy-option theirs --allow-unrelated-histories'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/checkout@v3
       with:
