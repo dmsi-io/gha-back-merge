@@ -60,17 +60,11 @@ runs:
           echo "message=Merge branch '${{ steps.src-branch.outputs.branch }}' into '${{ inputs.dest-branch }}'" >> $GITHUB_OUTPUT
         fi
       shell: bash
-    - name: Clean submodules
-      if: inputs.submodules == 'true'
-      run: |
-        git submodule foreach --recursive 'git reset --hard'
-        git submodule foreach --recursive 'git clean -fdx'
-      shell: bash
     - name: Merge
       run: |
         git config user.email ${{ inputs.commit-author-email }}
         git config user.name ${{ inputs.commit-author-name }}
-        git fetch
+        git fetch --depth=1
         # Ensure the branch exists locally
         git switch ${{ steps.src-branch.outputs.branch }}
         git pull
