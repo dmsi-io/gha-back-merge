@@ -65,8 +65,11 @@ runs:
         git config user.email ${{ inputs.commit-author-email }}
         git config user.name ${{ inputs.commit-author-name }}
         git fetch --depth=1
-        # Ensure the branch exists locally
-        git switch ${{ steps.src-branch.outputs.branch }}
+        # Do not switch if branch already is checked out
+        if [ $(git branch --show-current) != ${{ steps.src-branch.outputs.branch }} ]; then
+          # Ensure the branch exists locally
+          git switch ${{ steps.src-branch.outputs.branch }}
+        fi
         git pull
         git switch ${{ inputs.dest-branch }}
         git pull
